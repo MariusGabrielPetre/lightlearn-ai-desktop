@@ -1,10 +1,11 @@
 # Builds LightLearn AI for Windows, Linux (PC + ARM64 phones) and macOS on GitHub's computers.
-# Push a tag like v1.0.1 and the installers appear as a GitHub Release with fixed names,
+# Raise "version" in package.json and push to main (or push a tag like v1.0.1); the installers appear as a GitHub Release with fixed names,
 # so the links on lightlearnai.com (/download/...) always point to the newest version.
 name: Desktop builds
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     tags: ["v*"]
 permissions:
   contents: write
@@ -52,10 +53,12 @@ jobs:
           name: lightlearn-ai-${{ matrix.os }}
           path: out/*
   release:
-    if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - id: v
+        run: echo "tag=v$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
         with:
           path: out
@@ -63,7 +66,9 @@ jobs:
       - run: ls -la out
       - uses: softprops/action-gh-release@v2
         with:
-          name: LightLearn AI ${{ github.ref_name }}
+          tag_name: ${{ steps.v.outputs.tag }}
+          name: LightLearn AI ${{ steps.v.outputs.tag }}
+          make_latest: true
           body: |
             Instalatoare LightLearn AI pentru calculator și telefoane cu Linux.
             Windows: LightLearnAI-Windows-Setup.exe · macOS: LightLearnAI-macOS.dmg
