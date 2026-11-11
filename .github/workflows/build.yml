@@ -54,6 +54,8 @@ jobs:
           path: out/*
   release:
     needs: build
+    # Publish whatever was built, even if one platform (e.g. a busy macOS runner) did not finish.
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
