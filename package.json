@@ -1,0 +1,88 @@
+{
+  "name": "lightlearn-ai",
+  "productName": "LightLearn AI",
+  "version": "1.0.0",
+  "description": "Învață AI ușor, de la zero la expert, în 5 minute pe zi.",
+  "homepage": "https://www.lightlearnai.com",
+  "author": {
+    "name": "LightLearn AI",
+    "email": "salut@lightlearnai.com"
+  },
+  "license": "UNLICENSED",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:win": "electron-builder --win nsis",
+    "dist:mac": "electron-builder --mac dmg"
+  },
+  "devDependencies": {
+    "electron": "^45.3.0",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.lightlearnai.app",
+    "productName": "LightLearn AI",
+    "copyright": "© 2026 LightLearn AI",
+    "files": [
+      "main.js",
+      "app/**",
+      "build/icon.png",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Education",
+      "icon": "build/icons",
+      "synopsis": "Învață AI ușor, de la zero la expert",
+      "maintainer": "LightLearn AI <salut@lightlearnai.com>",
+      "artifactName": "LightLearnAI-Linux-${arch}.${ext}",
+      "syncDesktopName": true
+    },
+    "deb": {
+      "packageCategory": "education"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "LightLearnAI-Windows-Setup.${ext}",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "LightLearn AI",
+      "installerLanguages": [
+        "ro_RO",
+        "en_US"
+      ],
+      "language": "1048",
+      "warningsAsErrors": false
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.education",
+      "icon": "build/icon.png",
+      "artifactName": "LightLearnAI-macOS.${ext}"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MariusGabrielPetre/lightlearn-ai-desktop.git"
+  },
+  "desktopName": "lightlearn-ai.desktop"
+}
